@@ -1,0 +1,29 @@
+body {
+  margin: 0.5rem 0;
+}
+
+h1 {
+  text-align: center;
+}
+
+.alert {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.set-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  --bs-list-group-item-padding-x: 0.5rem;
+}
+
+.set-icon {
+  width: 1.5em;
+  max-height: 1.5em;
+}
+
+.set-name {
+  padding: 0 1rem;
+}
