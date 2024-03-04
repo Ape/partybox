@@ -1,14 +1,50 @@
 body {
+  background: repeating-linear-gradient(45deg, #fafafa, #fafafa 10px, #f4f4f4 10px, #f4f4f4 20px);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   margin: 0.5rem 0;
 }
 
-h1 {
+h2 {
+  margin-bottom: 0;
+}
+
+.logo {
+  font-family: "title", serif;
+  font-size: 2.5rem;
   text-align: center;
+}
+
+.logo a {
+  text-decoration: none;
+  color: var(--bs-body-color);
+}
+
+.list-group-item {
+  --bs-list-group-item-padding-x: 0.5rem;
+}
+
+.table {
+  font-size: 0.8em;
+  margin: 0;
+}
+
+.table > * > * > td {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
 }
 
 .alert {
   padding: 0.5rem;
+  max-width: 600px;
+  margin: auto;
   margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.set-list {
+  max-width: 600px;
+  margin: auto;
 }
 
 .set-row {
@@ -16,7 +52,6 @@ h1 {
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  --bs-list-group-item-padding-x: 0.5rem;
 }
 
 .set-icon {
@@ -24,6 +59,91 @@ h1 {
   max-height: 1.5em;
 }
 
-.set-name {
-  padding: 0 1rem;
+.set-icon-big {
+  width: 3.5rem;
+  max-height: 3.5rem;
+  margin-right: 0.75rem;
+}
+
+.set-list-name {
+  padding: 0 0.75rem;
+}
+
+.set-info {
+  max-width: 1700px;
+  margin: auto;
+  text-align: center;
+}
+
+.set-header {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.set-badges {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.card-list {
+  display: grid;
+  gap: 0.15rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.card-table {
+  max-width: 500px;
+  margin: auto;
+}
+
+.table > * > * > td.card-table-art-cell {
+  height: 2.5em;
+  width: 3.5em;
+  text-align: right;
+  padding: 0;
+}
+
+.card-table-art {
+  height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.mana-symbol {
+  height: 1em;
+}
+
+@media (max-width: 500px) {
+  .card-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-list-medium {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+@media (max-width: 331px) {
+  .card-list-medium {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-list-small {
+  grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+}
+
+@media (max-width: 181px) {
+  .card-list-small {
+    grid-template-columns: 1fr;
+  }
+}
+
+@font-face {
+  font-family: "title";
+  src: url("fonts/beleren-b.woff2") format("woff2"),
+       url("fonts/beleren-b.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
