@@ -29,7 +29,7 @@ export default {
       <input type="radio" id="size-table" v-model="size" value="table" class="btn-check">
       <label class="btn" for="size-table">Table</label>
     </div>
-    <div class="list-group-item">
+    <div class="card-list-container list-group-item">
       <div v-if="size != 'table'" class="card-list" :class="'card-list-' + size">
         <img v-for="card in cards" :src="card.image" :alt="card.name" width="480" height="680" class="img-fluid m-auto" :class="{ 'img-thumbnail': size != 'small' }">
       </div>

@@ -1,6 +1,6 @@
 export default {
   template: `
-  <div class="container-fluid">
+  <div class="app-container container-fluid">
     <h1 class="logo">
       <router-link to="/">Party Box Boosters</router-link>
     </h1>

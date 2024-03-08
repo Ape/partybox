@@ -2,11 +2,14 @@ body {
   background: repeating-linear-gradient(45deg, #fafafa, #fafafa 10px, #f4f4f4 10px, #f4f4f4 20px);
   background-repeat: no-repeat;
   background-attachment: fixed;
-  margin: 0.5rem 0;
 }
 
-h2 {
+h1, h2 {
   margin-bottom: 0;
+}
+
+.app-container {
+  padding: 0.3rem;
 }
 
 .logo {
@@ -84,6 +87,10 @@ h2 {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
+}
+
+.card-list-container {
+  padding: 0.2rem;
 }
 
 .card-list {
