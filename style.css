@@ -24,7 +24,7 @@ h1, h2 {
 }
 
 .list-group-item {
-  --bs-list-group-item-padding-x: 0.5rem;
+  padding: 0.3rem 0.5rem;
 }
 
 .table {
@@ -87,6 +87,10 @@ h1, h2 {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
+}
+
+label.btn {
+  padding: 0.1rem 0.5rem;
 }
 
 .card-list-container {
