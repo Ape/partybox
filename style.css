@@ -103,6 +103,29 @@ label.btn {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
+.flip-card-wrapper {
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.flip-card {
+  transition: all 0.5s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+.flip-card-front, .flip-card-back {
+  backface-visibility: hidden;
+}
+
+.flip-card-back {
+  position: absolute;
+  transform: rotateY(180deg);
+}
+
+.flip-card-flipped {
+  transform: rotateY(180deg);
+}
+
 .card-table {
   max-width: 500px;
   margin: auto;

@@ -1,8 +1,9 @@
+import CardImage from "./CardImage.js";
 import SetName from "./SetName.js";
 
 export default {
   props: ["code"],
-  components: {SetName},
+  components: {CardImage, SetName},
   template: `
   <ul v-if="set" class="set-info list-group">
     <div class="list-group-item" :class="{ 'list-group-item-light': set.premier, 'list-group-item-warning': set.supplemental }">
@@ -31,16 +32,28 @@ export default {
     </div>
     <div class="card-list-container list-group-item">
       <div v-if="size != 'table'" class="card-list" :class="'card-list-' + size">
-        <img v-for="card in cards" :src="card.image" :alt="card.name" width="480" height="680" class="img-fluid m-auto" :class="{ 'img-thumbnail': size != 'small' }">
+        <template v-for="card in cards">
+          <div v-if="card.can_flip" class="flip-card-wrapper" @click="card.flipped ^= true">
+            <div class="flip-card" :class="{ 'flip-card-flipped': card.flipped}">
+              <div class="flip-card-back">
+                <card-image :name="card.name_back" :url="card.image_back" :size="size">
+              </div>
+              <div class="flip-card-front">
+                <card-image :name="card.name_front" :url="card.image" :size="size">
+              </div>
+            </div>
+          </div>
+          <card-image v-else :name="card.name_front" :url="card.image" :size="size">
+        </template>
       </div>
       <div class="card-table table-responsive">
         <table v-if="size == 'table'" class="table text-nowrap">
           <tbody>
             <tr v-for="card in cards" :class="card.table_class">
               <td class="card-table-art-cell">
-                <img :src="card.art" :alt="card.frontname" class="card-table-art">
+                <img :src="card.art" :alt="card.name_front" class="card-table-art">
               </td>
-              <td class="text-start">{{ card.frontname }}</td>
+              <td class="text-start">{{ card.name_front }}</td>
               <td>{{ card.types.join(" ") }}</td>
               <td class="text-end">
                 <img v-for="symbol in card.cost" :src="'https://svgs.scryfall.io/card-symbols/' + symbol + '.svg'" :alt="symbol" class="mana-symbol">
@@ -130,25 +143,28 @@ async function fetchBooster(set) {
     .filter(x => !x.types.includes("Conspiracy"))
     .map(x => ({
       ...x,
-      frontname: x.name.split(" // ")[0],
+      name_front: x.name.split(" // ")[0],
+      name_back: x.name.split(" // ")[1],
       art: image_url(x, "art_crop"),
       image: image_url(x, "border_crop"),
+      image_back: image_url(x, "border_crop", "back"),
       table_class: `table-${tableClasses[x.rarity]}`,
       cost: x.mana_cost
         ? Array.from(x.mana_cost
           .matchAll(/{([^}]+)}/g), x => x[1]
           .replace(/\//, ""))
         : [],
+      can_flip: ["modal_dfc", "transform", "reversible_card"].includes(x.layout),
+      flipped: false,
     }));
 
   return {
     ...booster,
     cards: cards,
   };
-
 }
 
-function image_url(card, version) {
+function image_url(card, version, side="front") {
   const id = card.scryfall_id;
-  return `https://cards.scryfall.io/${version}/front/${id[0]}/${id[1]}/${id}.jpg`
+  return `https://cards.scryfall.io/${version}/${side}/${id[0]}/${id[1]}/${id}.jpg`
 }
