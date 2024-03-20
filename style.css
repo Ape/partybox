@@ -119,6 +119,11 @@ label.btn {
   right: 44.5%;
 }
 
+.scryfall-button-split {
+  top: 5.5%;
+  right: 47.5%;
+}
+
 .flip-card-wrapper {
   perspective: 1000px;
   cursor: pointer;
