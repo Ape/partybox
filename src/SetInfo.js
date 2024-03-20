@@ -18,7 +18,7 @@ export default {
       </div>
     </div>
     <div class="list-group-item">
-      <div>Opened {{ boosterAge }}.</div>
+      <div>Opened {{ boosterAge }}</div>
       <button type="button" class="btn btn-warning" @click="reopen()">Open a new booster</button>
     </div>
     <div class="list-group-item">
