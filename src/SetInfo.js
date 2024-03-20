@@ -18,6 +18,7 @@ export default {
       </div>
     </div>
     <div class="list-group-item">
+      <div>Opened {{ boosterAge }}.</div>
       <button type="button" class="btn btn-warning" @click="reopen()">Open a new booster</button>
     </div>
     <div class="list-group-item">
@@ -35,7 +36,7 @@ export default {
     </div>
     <div class="card-list-container list-group-item">
       <div v-if="size != 'table'" class="card-list" :class="'card-list-' + size">
-        <template v-for="card in cards">
+        <template v-for="card in booster?.cards">
           <div v-if="card.can_flip" class="flip-card-wrapper" @click="card.flipped ^= true">
             <div class="flip-card" :class="{ 'flip-card-flipped': card.flipped}">
               <div class="flip-card-back">
@@ -52,7 +53,7 @@ export default {
       <div class="card-table table-responsive">
         <table v-if="size == 'table'" class="table text-nowrap">
           <tbody>
-            <tr v-for="card in cards" :class="card.table_class">
+            <tr v-for="card in booster?.cards" :class="card.table_class">
               <td class="card-table-art-cell">
                 <img :src="card.art" :alt="card.name_front" class="card-table-art">
               </td>
@@ -67,7 +68,7 @@ export default {
       </div>
     </div>
   </ul>
-  <div class="alert alert-primary" :class="{ 'd-none': !set || cards }">
+  <div class="alert alert-primary" :class="{ 'd-none': !set || booster }">
     <span class="spinner-border spinner-border-sm"></span>
     Opening a booster pack...
   </div>
@@ -91,7 +92,24 @@ export default {
       return result;
     });
 
-    const cards = Vue.ref(null);
+    const booster = Vue.ref(null);
+
+    const boosterAgeUpdate = Vue.ref(0);
+    const boosterAge = Vue.computed(() => {
+      boosterAgeUpdate.value;
+      const timestamp = booster.value ? booster.value.timestamp : new Date();
+      return dateFns.formatDistanceToNow(timestamp, { addSuffix: true });
+    });
+
+    Vue.onMounted(() => {
+      function updateBoosterAge() {
+        boosterAgeUpdate.value++;
+      }
+
+      const timer = setInterval(updateBoosterAge, 30000);
+      Vue.onUnmounted(() => clearInterval(timer));
+    });
+
     const size = Vue.ref("medium");
 
     if (localStorage.cardSize) {
@@ -100,18 +118,17 @@ export default {
 
     async function openBooster(set) {
       try {
-        const booster = await fetchBooster(set);
-        boosters.value[set.code] = booster;
+        booster.value = await fetchBooster(set);
+        boosters.value[set.code] = booster.value;
         localStorage.boosters = JSON.stringify(boosters.value);
-        cards.value = booster.cards;
 
-        if (!["draft", "play", "default"].includes(booster.booster_type)) {
-          errors.value.push(`Warning: Booster type is '${booster.booster_type}'`);
+        if (!["draft", "play", "default"].includes(booster.value.booster_type)) {
+          errors.value.push(`Warning: Booster type is '${booster.value.booster_type}'`);
         }
       } catch (error) {
         console.error(error);
         errors.value.push(error.message);
-        cards.value = [];
+        booster.value = {};
       }
     }
 
@@ -121,7 +138,7 @@ export default {
       }
 
       if (newSet.code in boosters.value) {
-        cards.value = boosters.value[newSet.code].cards;
+        booster.value = boosters.value[newSet.code];
         return;
       }
 
@@ -133,14 +150,15 @@ export default {
     const reopen = () => {
       if (window.confirm("Are you sure you want to replace this booster with a new one?")) {
         delete boosters.value[set.value.code];
-        cards.value = null;
+        booster.value = null;
         openBooster(set.value);
       }
     }
 
     return {
       set,
-      cards,
+      booster,
+      boosterAge,
       size,
       reopen,
     };
@@ -185,6 +203,7 @@ async function fetchBooster(set) {
   return {
     ...booster,
     cards: cards,
+    timestamp: new Date(),
   };
 }
 
