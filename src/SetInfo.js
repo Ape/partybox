@@ -133,6 +133,7 @@ export default {
     const reopen = () => {
       if (window.confirm("Are you sure you want to replace this booster with a new one?")) {
         delete boosters.value[set.value.code];
+        cards.value = null;
         openBooster(set.value);
       }
     }
