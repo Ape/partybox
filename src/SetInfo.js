@@ -37,17 +37,17 @@ export default {
     <div class="card-list-container list-group-item">
       <div v-if="size != 'table'" class="card-list" :class="'card-list-' + size">
         <template v-for="card in booster?.cards">
-          <div v-if="card.can_flip" class="flip-card-wrapper" @click="card.flipped ^= true">
+          <div v-if="card.can_flip" class="flip-card-wrapper">
             <div class="flip-card" :class="{ 'flip-card-flipped': card.flipped}">
               <div class="flip-card-back">
-                <card-image :name="card.name_back" :url="card.image_back" :size="size">
+                <card-image :card="card" backside="true" :size="size">
               </div>
               <div class="flip-card-front">
-                <card-image :name="card.name_front" :url="card.image" :size="size">
+                <card-image :card="card" :size="size">
               </div>
             </div>
           </div>
-          <card-image v-else :name="card.name_front" :url="card.image" :size="size">
+          <card-image v-else :card="card" :size="size">
         </template>
       </div>
       <div class="card-table table-responsive">
@@ -57,7 +57,9 @@ export default {
               <td class="card-table-art-cell">
                 <img :src="card.art" :alt="card.name_front" class="card-table-art">
               </td>
-              <td class="text-start">{{ card.name_front }}</td>
+              <td class="text-start">
+                <a :href="card.scryfall_url" target="_blank">{{ card.name_front }}</a>
+              </td>
               <td>{{ card.types.join(" ") }}</td>
               <td class="text-end">
                 <img v-for="symbol in card.cost" :src="'https://svgs.scryfall.io/card-symbols/' + symbol + '.svg'" :alt="symbol" class="mana-symbol">
@@ -196,6 +198,7 @@ async function fetchBooster(set) {
           .matchAll(/{([^}]+)}/g), x => x[1]
           .replace(/\//, ""))
         : [],
+      scryfall_url: `https://scryfall.com/card/${x.scryfall_id}`,
       can_flip: ["modal_dfc", "transform", "reversible_card"].includes(x.layout),
       flipped: false,
     }));

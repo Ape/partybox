@@ -108,6 +108,17 @@ label.btn {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
+.scryfall-button {
+  position: absolute;
+  top: 11.5%;
+  right: 8%;
+}
+
+.scryfall-button-battle {
+  top: 3.5%;
+  right: 44.5%;
+}
+
 .flip-card-wrapper {
   perspective: 1000px;
   cursor: pointer;
