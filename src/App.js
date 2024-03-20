@@ -15,7 +15,12 @@ export default {
   setup() {
     const errors = Vue.ref([]);
     const sets = Vue.ref(null);
+    const boosters = Vue.ref({});
     const timePassed = Vue.ref(false);
+
+    if (localStorage.boosters) {
+      boosters.value = JSON.parse(localStorage.boosters);
+    }
 
     Vue.onMounted(async () => {
       try {
@@ -34,6 +39,7 @@ export default {
 
     Vue.provide("errors", errors);
     Vue.provide("sets", sets);
+    Vue.provide("boosters", boosters);
 
     return {
       errors,

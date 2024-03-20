@@ -18,6 +18,9 @@ export default {
       </div>
     </div>
     <div class="list-group-item">
+      <button type="button" class="btn btn-warning" @click="reopen()">Open a new booster</button>
+    </div>
+    <div class="list-group-item">
       <input type="radio" id="size-small" v-model="size" value="small" class="btn-check">
       <label class="btn" for="size-small">Small</label>
 
@@ -72,6 +75,7 @@ export default {
   setup(props) {
     const errors = Vue.inject("errors");
     const sets = Vue.inject("sets");
+    const boosters = Vue.inject("boosters");
 
     const set = Vue.computed(() => {
       if (!sets.value) {
@@ -94,13 +98,11 @@ export default {
       size.value = localStorage.cardSize;
     }
 
-    Vue.watch(set, async newSet => {
-      if (!newSet) {
-        return;
-      }
-
+    async function openBooster(set) {
       try {
-        const booster = await fetchBooster(newSet);
+        const booster = await fetchBooster(set);
+        boosters.value[set.code] = booster;
+        localStorage.boosters = JSON.stringify(boosters.value);
         cards.value = booster.cards;
 
         if (!["draft", "play", "default"].includes(booster.booster_type)) {
@@ -111,14 +113,35 @@ export default {
         errors.value.push(error.message);
         cards.value = [];
       }
+    }
+
+    Vue.watch(set, async newSet => {
+      if (!newSet) {
+        return;
+      }
+
+      if (newSet.code in boosters.value) {
+        cards.value = boosters.value[newSet.code].cards;
+        return;
+      }
+
+      openBooster(newSet);
     }, { immediate: true });
 
     Vue.watch(size, newSize => localStorage.cardSize = newSize);
+
+    const reopen = () => {
+      if (window.confirm("Are you sure you want to replace this booster with a new one?")) {
+        delete boosters.value[set.value.code];
+        openBooster(set.value);
+      }
+    }
 
     return {
       set,
       cards,
       size,
+      reopen,
     };
   },
 }

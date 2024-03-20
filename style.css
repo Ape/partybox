@@ -10,6 +10,7 @@ h1, h2 {
 
 .app-container {
   padding: 0.3rem;
+  text-align: center;
 }
 
 .logo {
@@ -47,7 +48,7 @@ h1, h2 {
 
 .set-list {
   max-width: 600px;
-  margin: auto;
+  margin: 0.25rem auto;
 }
 
 .set-row {
@@ -70,6 +71,10 @@ h1, h2 {
 
 .set-list-name {
   padding: 0 0.75rem;
+}
+
+.set-list-opened div {
+  text-decoration: line-through;
 }
 
 .set-info {
