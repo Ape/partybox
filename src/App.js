@@ -40,10 +40,6 @@ export default {
       sets,
       timePassed,
     };
-
-    return {
-      sets: Vue.inject("sets"),
-    };
   },
 }
 
