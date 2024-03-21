@@ -37,7 +37,7 @@ export default {
     <div class="card-list-container list-group-item">
       <div v-if="size != 'table'" class="card-list" :class="'card-list-' + size">
         <template v-for="card in booster?.cards">
-          <div v-if="card.can_flip" class="flip-card-wrapper">
+          <div v-if="card.can_flip && size != 'small'" class="flip-card-wrapper">
             <div class="flip-card" :class="{ 'flip-card-flipped': card.flipped}">
               <div class="flip-card-back">
                 <card-image :card="card" backside="true" :size="size">
