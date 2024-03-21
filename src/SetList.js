@@ -3,7 +3,10 @@ import SetName from "./SetName.js";
 export default {
   components: {SetName},
   template: `
-  <button v-if="numBoosters > 0" type="button" class="btn btn-danger" @click="clearBoosters()">Clear all {{numBoosters > 1 ? numBoosters : ""}} boosters</button>
+  <button v-if="numBoosters > 0" type="button" class="btn btn-danger" @click="clearBoosters()">
+    <i class="bi bi-trash-fill"></i>
+    Clear all {{numBoosters > 1 ? numBoosters : ""}} boosters
+  </button>
   <ul class="set-list list-group">
     <router-link v-for="set in sets" :key="set.code" :to="set.route" class="set-row list-group-item list-group-item-action" :class="{ 'list-group-item-light': set.premier, 'list-group-item-warning': set.supplemental }">
       <img :src="set.icon_svg_uri" :alt="set.code" class="set-icon">

@@ -114,6 +114,7 @@ label.btn {
   right: 50%;
   transform: translate(50%, 0);
   opacity: 90%;
+  padding: 0.3rem;
 }
 
 .flip-card-wrapper {

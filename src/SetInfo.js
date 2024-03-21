@@ -19,7 +19,10 @@ export default {
     </div>
     <div class="list-group-item">
       <div>Opened {{ boosterAge }}</div>
-      <button type="button" class="btn btn-warning" @click="reopen()">Open a new booster</button>
+      <button type="button" class="btn btn-warning" @click="reopen()">
+        <i class="bi bi-recycle"></i>
+        Open a new booster
+      </button>
     </div>
     <div class="list-group-item">
       <input type="radio" id="size-small" v-model="size" value="small" class="btn-check">
@@ -46,8 +49,10 @@ export default {
                 <card-image :card="card" :size="size">
               </div>
             </div>
-            <button type="button" @click="card.flipped ^= true" class="btn btn-primary flip-button">
-              Flip
+            <button type="button" @click="card.flipped ^= true" class="btn btn-primary flip-button" title="Flip">
+              <svg class="bi" width="32" height="32" fill="currentColor">
+                <use xlink:href="icons/arrow-repeat.svg#arrow-repeat"/>
+              </svg>
             </button>
           </div>
           <card-image v-else :card="card" :size="size">
