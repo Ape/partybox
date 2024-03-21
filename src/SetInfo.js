@@ -46,6 +46,9 @@ export default {
                 <card-image :card="card" :size="size">
               </div>
             </div>
+            <button type="button" @click="card.flipped ^= true" class="btn btn-primary flip-button">
+              Flip
+            </button>
           </div>
           <card-image v-else :card="card" :size="size">
         </template>
