@@ -60,6 +60,7 @@ async function fetchSets() {
   return (await response.json()).data
     .filter(x => !x.digital)
     .filter(x => x.code != "plst")
+    .filter(x => x.code != "mb2")
     .filter(x => !x.name.includes("Jumpstart"))
     .filter(x => !x.hasOwnProperty("parent_set_code"))
     .filter(x => new Date(x.released_at) <= new Date())
